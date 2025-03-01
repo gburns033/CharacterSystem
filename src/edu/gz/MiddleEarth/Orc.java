@@ -24,8 +24,15 @@ public class Orc extends MiddleEarthCharacter {
      */
     @Override
     public boolean attack(MiddleEarthCharacter target) {
-        if (target.getRace().equals(this.getRace())) {
+        if (target != null && (target.getRace().equals(this.getRace()) || target.getRace().equals("Elf"))) {
             return false;
+        }
+        
+        if (target.getRace().equals("Human")) {
+            double truePower = power * 1.5;
+            target.health = target.health - truePower > 0 ? target.health - truePower : 0;
+
+            return true;
         }
 
         // Deal damage while ensuring health doesn't go negative
