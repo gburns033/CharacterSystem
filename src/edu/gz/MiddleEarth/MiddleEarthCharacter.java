@@ -12,5 +12,8 @@ public abstract class MiddleEarthCharacter {
 	}
 
 	protected abstract boolean attack(MiddleEarthCharacter target);
-	protected abstract void displayInfo();
+	protected abstract String getRace();
+	public void displayInfo() {
+		System.out.println("Name: " + name + "\nHealth: " + health + "\nPower: " + power + "\nRace: " + getRace());
+	}
 }
