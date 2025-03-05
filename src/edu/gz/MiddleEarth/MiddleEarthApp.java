@@ -29,7 +29,8 @@ public class MiddleEarthApp {
 	}
 
 	public void open() {
-		while (true) {
+		boolean running = true;
+		while (running) {
 			showMenu();
 
 			String input = scanner.nextLine();
@@ -42,17 +43,25 @@ public class MiddleEarthApp {
 					openAddCharacterMenu();
 					break;
 				case 2:
-					System.out.println("\\n===== Displaying All Characters =====");
+					System.out.println("\n===== Displaying All Characters =====");
 					council.getCharacterManager().displayAllCharacters();
+					break;
 				case 3:
 					openUpdateCharacterMenu();
 					break;
 				case 4:
 					openDeleteCharacterMenu();
+					break;
 				case 5:
 					openAttackMenu();
+					break;
+				case 6:
+					System.out.println("Exiting...");
+					running = false;
+					break;
 				}
-			} finally {
+
+			} catch (Exception e) {
 				System.out.println("Invalid Input!");
 			}
 		}
@@ -75,14 +84,39 @@ public class MiddleEarthApp {
 
 		try {
 			int characterClass = scanner.nextInt();
+			scanner.nextLine();
+			
+			if (characterClass == 6) {
+				System.out.println("Exiting character creation.");
+				return;
+			}
+			else if (characterClass < 1 || characterClass > 6) {
+				System.out.println("Invalid character class. Exiting character creation.");
+				return;
+			}
 
 			System.out.println("Enter character name:");
 			String name = scanner.nextLine();
+			if (name.isEmpty()) {
+				System.out.println("Invalid name. Exiting character creation.");
+				return;
+			}
+
 			System.out.println("Enter character health:");
 			double health = scanner.nextDouble();
+			scanner.nextLine();
+			if (health < 0) {
+				System.out.println("Invalid health. Exiting character creation.");
+				return;
+			}
+
 			System.out.println("Enter character power:");
 			double power = scanner.nextDouble();
 			scanner.nextLine();
+			if (power < 0) {
+				System.out.println("Invalid power. Exiting character creation.");
+				return;
+			}
 
 			MiddleEarthCharacter character = null;
 
@@ -102,9 +136,6 @@ public class MiddleEarthApp {
 			case 5:
 				character = new Wizard(name, health, power);
 				break;
-			case 6:
-				System.out.println("Exiting character creation.");
-				return;
 			default:
 				System.out.println("Invalid character class. Exiting character creation.");
 				return;
@@ -112,7 +143,7 @@ public class MiddleEarthApp {
 
 			council.getCharacterManager().addCharacter(character);
 			System.out.println("Character added successfully.");
-		} finally {
+		} catch (Exception e) {
 			System.out.println("Invalid input. Exiting character creation.");
 		}
 	}
@@ -139,11 +170,26 @@ public class MiddleEarthApp {
 
 			System.out.println("Enter character name:");
 			String name = scanner.nextLine();
+			if (name.isEmpty()) {
+				System.out.println("Invalid name. Exiting character creation.");
+				return;
+			}
+
 			System.out.println("Enter character health:");
 			int health = scanner.nextInt();
+			scanner.nextLine();
+			if (health < 0) {
+				System.out.println("Invalid health. Exiting character creation.");
+				return;
+			}
+
 			System.out.println("Enter character power:");
 			int power = scanner.nextInt();
 			scanner.nextLine();
+			if (power < 0) {
+				System.out.println("Invalid power. Exiting character creation.");
+				return;
+			}
 
 			if (health < 0) {
 				System.out.println("Invalid health given. Health must be non-negative. Exiting character editing.");
@@ -154,7 +200,7 @@ public class MiddleEarthApp {
 
 			CM.updateCharacter(character, finalizedName, health, power);
 			System.out.println("Successfully edited character.");
-		} finally {
+		} catch (Exception e) {
 			System.out.println("Invalid input. Exiting character editing.");
 		}
 	}
@@ -181,7 +227,7 @@ public class MiddleEarthApp {
 
 			CM.deleteCharacter(character);
 			System.out.println("Successfully deleted character.");
-		} finally {
+		} catch (Exception e) {
 			System.out.println("Invalid input. Exiting character deletion.");
 		}
 	}
@@ -191,50 +237,54 @@ public class MiddleEarthApp {
 	}
 
 	private void openAttackMenu() {
-		showAttackMenu();
+		try {
+			showAttackMenu();
 
-		System.out.println("Enter the character name of the attacker:");
-		String nameToFind1 = scanner.nextLine();
+			System.out.println("Enter the character name of the attacker:");
+			String nameToFind1 = scanner.nextLine();
 
-		CharacterManager CM = council.getCharacterManager();
+			CharacterManager CM = council.getCharacterManager();
 
-		MiddleEarthCharacter attacker = CM.getCharacter(nameToFind1);
+			MiddleEarthCharacter attacker = CM.getCharacter(nameToFind1);
 
-		if (attacker == null) {
-			System.out.println("That character does not exist. Exiting battle sequence.");
-			return;
-		}
+			if (attacker == null) {
+				System.out.println("That character does not exist. Exiting battle sequence.");
+				return;
+			}
 
-		System.out.println("Enter the character name of the target:");
-		String nameToFind2 = scanner.nextLine();
+			System.out.println("Enter the character name of the target:");
+			String nameToFind2 = scanner.nextLine();
 
-		if (nameToFind1.equals(nameToFind2)) {
-			System.out.println("A character cannot fight itself. Exiting battle sequence.");
-			return;
-		}
+			if (nameToFind1.equals(nameToFind2)) {
+				System.out.println("A character cannot fight itself. Exiting battle sequence.");
+				return;
+			}
 
-		MiddleEarthCharacter target = CM.getCharacter(nameToFind2);
+			MiddleEarthCharacter target = CM.getCharacter(nameToFind2);
 
-		if (target == null) {
-			System.out.println("That character does not exist. Exiting battle sequence.");
-			return;
-		}
+			if (target == null) {
+				System.out.println("That character does not exist. Exiting battle sequence.");
+				return;
+			}
 
-		System.out.println("\n===== Battle Sequence =====");
-		System.out.println("Attacker:");
-		attacker.displayInfo();
+			System.out.println("\n===== Battle Sequence =====");
+			System.out.println("Attacker:");
+			attacker.displayInfo();
 
-		System.out.println("\nTarget:");
-		target.displayInfo();
-
-		if (attacker.attack(target)) {
-			System.out.println("\nAttack was successful!");
-			System.out.println("Target's updated info:");
+			System.out.println("\nTarget:");
 			target.displayInfo();
-			return;
-		} else {
-			System.out.println("Attack failed!");
-			return;
+
+			if (attacker.attack(target)) {
+				System.out.println("\nAttack was successful!");
+				System.out.println("Target's updated info:");
+				target.displayInfo();
+				return;
+			} else {
+				System.out.println("Attack failed!");
+				return;
+			}
+		} catch (Exception e) {
+			System.out.println("Invalid input. Exiting battle sequence.");
 		}
 	}
 }

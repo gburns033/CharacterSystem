@@ -33,6 +33,8 @@ public class CharacterManager {
 		if (c == null) {
 			return false;
 		}
+		
+		System.out.println("Array size: " + characters.length);
 
 		if (size != characters.length) {
 			insertCharacter(c);
@@ -56,7 +58,7 @@ public class CharacterManager {
 			return null;
 		}
 
-		for (int i = 0; i <= characters.length; i++) {
+		for (int i = 0; i < characters.length; i++) {
 			if (characters[i].name.equals(name)) {
 				return characters[i];
 			}
@@ -112,13 +114,17 @@ public class CharacterManager {
 			return false;
 		}
 
-		for (int i = 0; i <= size; i++) {
+		for (int i = 0; i < size; i++) {
 			if (characters[i] == character) {
-				System.arraycopy(character, i + 1, character, i, size - i - 1);
-				characters[size] = null;
-				size--;
-				return true;
-			}
+	            
+	            for (int j = i; j < size - 1; j++) {
+	                characters[j] = characters[j + 1];
+	            }
+	            
+	            characters[size - 1] = null;
+	            size--;
+	            return true;
+	        }
 		}
 
 		return false;
@@ -128,7 +134,7 @@ public class CharacterManager {
 	 * Displays information about all characters in the array.
 	 */
 	public void displayAllCharacters() {
-		for (int i = 0; i <= size; i++) {
+		for (int i = 0; i < size; i++) {
 			System.out.println("Character " + (i + 1));
 			characters[i].displayInfo();
 			System.out.println("\n");
