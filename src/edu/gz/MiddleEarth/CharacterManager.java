@@ -33,8 +33,6 @@ public class CharacterManager {
 		if (c == null) {
 			return false;
 		}
-		
-		System.out.println("Array size: " + characters.length);
 
 		if (size != characters.length) {
 			insertCharacter(c);
