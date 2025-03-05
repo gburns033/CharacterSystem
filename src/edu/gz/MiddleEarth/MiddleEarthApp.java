@@ -6,10 +6,6 @@ public class MiddleEarthApp {
     private Scanner scanner;
     private MiddleEarthCouncil council;
 
-    /**
-     * Main method to start the application. Creates an instance of MiddleEarthApp,
-     * and opens the main menu to start the program.
-     */
     public static void main(String[] args) {
         MiddleEarthApp app = new MiddleEarthApp();
         app.Menu();
@@ -188,9 +184,9 @@ public class MiddleEarthApp {
             System.out.println("Enter the character name to edit:");
             String nameToFind = scanner.nextLine();
 
-            CharacterManager CM = council.getCharacterManager();
+            CharacterManager cm = council.getCharacterManager();
 
-            MiddleEarthCharacter character = CM.getCharacter(nameToFind);
+            MiddleEarthCharacter character = cm.getCharacter(nameToFind);
 
             if (character == null) {
                 System.out.println("That character does not exist. Exiting character editing.");
@@ -227,7 +223,7 @@ public class MiddleEarthApp {
 
             String finalizedName = name.isBlank() ? character.name : name;
 
-            CM.updateCharacter(character, finalizedName, health, power);
+            cm.updateCharacter(character, finalizedName, health, power);
             System.out.println("Successfully edited character.");
         } catch (Exception e) {
             System.out.println("Invalid input. Exiting character editing.");
@@ -252,16 +248,16 @@ public class MiddleEarthApp {
             System.out.println("Enter the character name to delete:");
             String nameToFind = scanner.nextLine();
 
-            CharacterManager CM = council.getCharacterManager();
+            CharacterManager cm = council.getCharacterManager();
 
-            MiddleEarthCharacter character = CM.getCharacter(nameToFind);
+            MiddleEarthCharacter character = cm.getCharacter(nameToFind);
 
             if (character == null) {
                 System.out.println("That character does not exist. Exiting character deletion.");
                 return;
             }
 
-            CM.deleteCharacter(character);
+            cm.deleteCharacter(character);
             System.out.println("Successfully deleted character.");
         } catch (Exception e) {
             System.out.println("Invalid input. Exiting character deletion.");
@@ -286,9 +282,9 @@ public class MiddleEarthApp {
             System.out.println("Enter the character name of the attacker:");
             String nameToFind1 = scanner.nextLine();
 
-            CharacterManager CM = council.getCharacterManager();
+            CharacterManager cm = council.getCharacterManager();
 
-            MiddleEarthCharacter attacker = CM.getCharacter(nameToFind1);
+            MiddleEarthCharacter attacker = cm.getCharacter(nameToFind1);
 
             if (attacker == null) {
                 System.out.println("That character does not exist. Exiting battle sequence.");
@@ -303,7 +299,7 @@ public class MiddleEarthApp {
                 return;
             }
 
-            MiddleEarthCharacter target = CM.getCharacter(nameToFind2);
+            MiddleEarthCharacter target = cm.getCharacter(nameToFind2);
 
             if (target == null) {
                 System.out.println("That character does not exist. Exiting battle sequence.");
