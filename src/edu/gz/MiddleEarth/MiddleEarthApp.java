@@ -7,7 +7,9 @@ public class MiddleEarthApp {
 	private MiddleEarthCouncil council;
 
 	public static void main(String[] args) {
-
+		MiddleEarthApp app = new MiddleEarthApp();
+		app.Menu();
+		app.open();
 	}
 
 	public void Menu() {
